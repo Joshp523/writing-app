@@ -37,7 +37,7 @@ const wc=t=>((t||'').match(/\S+/g)||[]).length,SN=['Idea','Draft','Revised','Don
 let S={j:{},books:[],tab:'journal',date:today,bk:null,it:null,dirty:false};
 try{Object.assign(S,JSON.parse(localStorage.getItem('jw_state'))||{})}catch(e){}
 S.date=today;S.books=S.books||[];
-/* CLOUD BACKUP: uses the same Supabase project and snapshots row as the habit app; this app only touches data.jw */
+/* CLOUD BACKUP: uses the same Supabase project as the habit app but its own jw_snapshots table */
 const SB='https://hrhlgscfgqjqslejlpqa.supabase.co',KEY='sb_publishable_GeOYErBznt6Y60TeU9oJcA_hK_Ugwyy';
 let AU=null,busy=false,pt,ver=0,ST='Saved on this device';try{AU=JSON.parse(localStorage.getItem('jw_auth'))}catch(e){}
 const saveAU=()=>{try{AU?localStorage.setItem('jw_auth',JSON.stringify(AU)):localStorage.removeItem('jw_auth')}catch(e){}};
@@ -48,8 +48,8 @@ async function sb(p,o={}){if(AU.exp-30000<Date.now())await auth({refresh_token:A
 const mg=(a,b)=>{const o={...a};for(const k in b)if(!o[k]||(b[k].u||0)>(o[k].u||0))o[k]=b[k];return o};
 const mA=(a,b)=>{const m={};[...a,...b].forEach(x=>{if(!m[x.id]||(x.u||0)>(m[x.id].u||0))m[x.id]=x});return Object.values(m)};
 async function sync(){if(!AU||busy)return;busy=true;ST='Backing up…';paint();
- try{const row=(await sb('snapshots?select=data'))[0],d=row?row.data:{},r=d.jw||{};S.j=mg(S.j,r.j||{});S.books=mA(S.books,r.books||[]);const v=ver;
-  await sb('snapshots?on_conflict=user_id',{method:'POST',headers:{Prefer:'resolution=merge-duplicates'},body:JSON.stringify({user_id:AU.uid,data:{...d,jw:{j:S.j,books:S.books}},updated_at:new Date().toISOString()})});
+ try{const row=(await sb('jw_snapshots?select=data'))[0],d=row?row.data:{},r=d.jw||{};S.j=mg(S.j,r.j||{});S.books=mA(S.books,r.books||[]);const v=ver;
+  await sb('jw_snapshots?on_conflict=user_id',{method:'POST',headers:{Prefer:'resolution=merge-duplicates'},body:JSON.stringify({user_id:AU.uid,data:{...d,jw:{j:S.j,books:S.books}},updated_at:new Date().toISOString()})});
   S.dirty=v!==ver;persist();ST='Backed up '+new Date().toLocaleTimeString([],{hour:'numeric',minute:'2-digit'});
   const a=document.activeElement;if(!a||!/^(TEXTAREA|INPUT)$/.test(a.tagName))render()}
  catch(e){ST='Backup failed ('+e.message+'). Your writing is safe on this device.'}busy=false;paint()}

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Pages</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@400;500&family=Jost:wght@400;500;600&family=Pinyon+Script&display=swap">
+<link rel="manifest" href="manifest.webmanifest"><link rel="icon" type="image/svg+xml" href="favicon.svg"><link rel="icon" type="image/png" href="icon-192.png"><link rel="apple-touch-icon" href="icon-180.png"><meta name="theme-color" content="#f1f1ec"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Pages">
+<style>
+:root{padding-top:env(safe-area-inset-top,0px);--bg:#f1f1ec;--card:rgba(255,255,255,.8);--ink:#292728;--mu:#6c6b58;--ln:#d0c7b3;--rose:#43442b;--rose2:#e6e1d2;--sage:#939474;--sage2:#e4e4d8;--bad:#9a5b4a}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 16px/1.45 Jost,"Helvetica Neue",Arial,sans-serif}
+#bg{position:fixed;top:0;left:50%;transform:translateX(-50%);width:100%;max-width:520px;z-index:0;pointer-events:none;background:center top/100% 100% no-repeat;-webkit-mask-image:linear-gradient(#000 0,#000 58%,transparent 100%);mask-image:linear-gradient(#000 0,#000 58%,transparent 100%)}
+main{position:relative;z-index:1;max-width:520px;margin:0 auto;padding:0 16px 110px}
+.hero{display:flex;flex-direction:column;justify-content:flex-end;padding-bottom:10px;text-shadow:0 0 16px var(--bg),0 0 5px var(--bg)}
+.hero h1{font:400 46px/1.05 "Pinyon Script",cursive;margin:0;color:var(--rose)}.hero i{font-style:normal;font-size:13px;letter-spacing:.03em}
+.card{background:var(--card);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);border:1px solid var(--ln);border-radius:22px;padding:18px;margin-bottom:14px;box-shadow:0 6px 22px rgba(41,39,40,.06)}
+.ct{font:600 16px Jost,sans-serif;color:var(--rose);margin-bottom:6px}.mu{color:var(--mu);font-size:14px}
+.row{display:flex;justify-content:space-between;align-items:center;gap:8px}
+input,textarea{width:100%;padding:11px 12px;border:1px solid var(--ln);border-radius:14px;background:rgba(255,255,255,.9);color:var(--ink);font:400 16px Jost,sans-serif}
+input[type=date]{min-width:0;min-height:46px;-webkit-appearance:none;appearance:none;text-align:center;font-weight:500}
+textarea.tx{min-height:52vh;border:0;background:transparent;resize:none;padding:10px 2px;outline:0;border-radius:0;font:400 18px/1.7 "Crimson Pro",Georgia,serif;overflow:hidden}
+.ti{border:0;border-bottom:1px solid var(--ln);border-radius:0;background:transparent;padding:8px 2px;font-weight:500}.ti.l0{font-weight:600;font-size:17px;color:var(--rose)}
+button{font-family:inherit}.go{width:100%;margin-top:10px;padding:13px;border:0;border-radius:999px;background:var(--rose);color:var(--bg);font:600 15px Jost,sans-serif;letter-spacing:.05em}.go.alt{background:var(--sage)}
+.chip{padding:7px 13px;border:1px solid var(--ln);border-radius:999px;background:rgba(255,255,255,.9);color:var(--ink);font:500 13px Jost,sans-serif;white-space:nowrap}
+.x{background:none;border:0;color:var(--mu);font-size:20px;padding:4px 9px}
+.it{padding:8px 0;border-top:1px solid var(--ln)}.it:first-child{border:0}
+.ent{padding:10px 0;border-top:1px solid var(--ln);display:block;width:100%;text-align:left;background:none;border-left:0;border-right:0;border-bottom:0;color:var(--ink);font:inherit}.ent.on{color:var(--rose);font-weight:600}.ent span{display:block;color:var(--mu);font-weight:400;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bar{height:8px;background:var(--ln);border-radius:8px;overflow:hidden;margin:8px 0 4px}.bar i{display:block;height:100%;background:var(--rose)}
+nav{position:fixed;left:0;right:0;bottom:0;display:flex;background:rgba(241,241,236,.95);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);border-top:1px solid var(--ln);padding:4px 2px calc(6px + env(safe-area-inset-bottom,0px));z-index:5}
+nav button{flex:1;border:0;background:none;color:var(--mu);font:500 11px Jost,sans-serif;padding:6px 0 2px;letter-spacing:.03em}nav svg{display:block;margin:0 auto 3px}nav .on{color:var(--rose);font-weight:600}
+button:focus-visible,input:focus-visible{outline:2px solid var(--sage);outline-offset:2px}
+</style></head><body><div id="bg"></div><main id="app"></main>
+<nav id="nav"><button id="n-journal" onclick="go('journal')"><svg viewBox="0 0 24 24" width="23" height="23" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 3h12a2 2 0 0 1 2 2v16H7a2 2 0 0 1-2-2zM9 8h6M9 12h6"/></svg>Journal</button><button id="n-writing" onclick="go('writing')"><svg viewBox="0 0 24 24" width="23" height="23" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 4c-9 0-14 5-14 13l-2 3M20 4c0 7-5 12-12 12M10 14h6"/></svg>Writing</button></nav>
+<script>
+const $=i=>document.getElementById(i),uid=()=>Math.random().toString(36).slice(2,10),pad=n=>String(n).padStart(2,'0');
+const iso=d=>d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate()),today=iso(new Date());
+const esc=s=>String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const wc=t=>((t||'').match(/\S+/g)||[]).length,SN=['Idea','Draft','Revised','Done'];
+let S={j:{},books:[],tab:'journal',date:today,bk:null,it:null,dirty:false};
+try{Object.assign(S,JSON.parse(localStorage.getItem('jw_state'))||{})}catch(e){}
+S.date=today;S.books=S.books||[];
+/* CLOUD BACKUP: uses the same Supabase project and snapshots row as the habit app; this app only touches data.jw */
+const SB='https://hrhlgscfgqjqslejlpqa.supabase.co',KEY='sb_publishable_GeOYErBznt6Y60TeU9oJcA_hK_Ugwyy';
+let AU=null,busy=false,pt,ver=0,ST='Saved on this device';try{AU=JSON.parse(localStorage.getItem('jw_auth'))}catch(e){}
+const saveAU=()=>{try{AU?localStorage.setItem('jw_auth',JSON.stringify(AU)):localStorage.removeItem('jw_auth')}catch(e){}};
+const persist=()=>{try{localStorage.setItem('jw_state',JSON.stringify(S))}catch(e){}},paint=()=>document.querySelectorAll('.ss').forEach(e=>e.textContent=ST);
+function save(){ver++;S.dirty=true;persist();ST=AU?'Saved · backing up soon':'Saved on this device · sign in to back up';paint();clearTimeout(pt);if(AU)pt=setTimeout(sync,2500)}
+async function auth(body,grant){const r=await fetch(SB+'/auth/v1/token?grant_type='+grant,{method:'POST',headers:{apikey:KEY,'Content-Type':'application/json'},body:JSON.stringify(body)}),j=await r.json();if(!r.ok)throw new Error(j.error_description||j.msg||'Sign-in failed');AU={at:j.access_token,rt:j.refresh_token,exp:Date.now()+j.expires_in*1000,uid:j.user.id,em:j.user.email};saveAU()}
+async function sb(p,o={}){if(AU.exp-30000<Date.now())await auth({refresh_token:AU.rt},'refresh_token');const r=await fetch(SB+'/rest/v1/'+p,{...o,headers:{apikey:KEY,Authorization:'Bearer '+AU.at,'Content-Type':'application/json',...(o.headers||{})}});if(!r.ok)throw new Error('HTTP '+r.status);return r.status===204?null:r.json()}
+const mg=(a,b)=>{const o={...a};for(const k in b)if(!o[k]||(b[k].u||0)>(o[k].u||0))o[k]=b[k];return o};
+const mA=(a,b)=>{const m={};[...a,...b].forEach(x=>{if(!m[x.id]||(x.u||0)>(m[x.id].u||0))m[x.id]=x});return Object.values(m)};
+async function sync(){if(!AU||busy)return;busy=true;ST='Backing up…';paint();
+ try{const row=(await sb('snapshots?select=data'))[0],d=row?row.data:{},r=d.jw||{};S.j=mg(S.j,r.j||{});S.books=mA(S.books,r.books||[]);const v=ver;
+  await sb('snapshots?on_conflict=user_id',{method:'POST',headers:{Prefer:'resolution=merge-duplicates'},body:JSON.stringify({user_id:AU.uid,data:{...d,jw:{j:S.j,books:S.books}},updated_at:new Date().toISOString()})});
+  S.dirty=v!==ver;persist();ST='Backed up '+new Date().toLocaleTimeString([],{hour:'numeric',minute:'2-digit'});
+  const a=document.activeElement;if(!a||!/^(TEXTAREA|INPUT)$/.test(a.tagName))render()}
+ catch(e){ST='Backup failed ('+e.message+'). Your writing is safe on this device.'}busy=false;paint()}
+async function signIn(){try{await auth({email:$('em').value.trim(),password:$('pw').value},'password');await sync();render()}catch(e){ST=e.message;paint()}}
+const cloud=()=>`<div class="card"><div class="ct">Cloud backup</div>${AU?`<div class="mu">Signed in as ${esc(AU.em)}</div><div class="mu ss">${esc(ST)}</div><button class="go" onclick="sync()">Back up now</button><button class="go alt" onclick="AU=null;saveAU();render()">Sign out</button>`:`<div class="mu">Sign in once and every change is backed up automatically.</div><input id="em" type="email" placeholder="Email" autocomplete="username" style="margin-top:8px"><input id="pw" type="password" placeholder="Password" autocomplete="current-password" style="margin-top:8px"><div class="mu ss">${esc(ST)}</div><button class="go" onclick="signIn()">Sign in</button>`}</div>`;
+setInterval(()=>{if(AU&&S.dirty)sync()},30000);document.addEventListener('visibilitychange',()=>{if(AU&&document.hidden&&S.dirty)sync()});
+/* VIEWS */
+const IMG={journal:['bg-journal.jpg','1000/750',290],writing:['bg-writing.jpg','900/1200',350]};
+const hero=(t,s)=>`<div class="hero" style="height:${IMG[S.tab][2]}px"><h1>${t}</h1><i>${s}</i></div>`;
+const grow=t=>{t.style.height='auto';t.style.height=Math.max(t.scrollHeight,window.innerHeight*.5)+'px'};
+const go=t=>{S.tab=t;render();scrollTo(0,0)};
+const dd=n=>{const [y,m,d]=S.date.split('-');S.date=iso(new Date(+y,m-1,+d+n));render()};
+const dl=d=>{const [y,m,x]=d.split('-');return new Date(+y,m-1,+x).toLocaleDateString(undefined,{weekday:'long',month:'long',day:'numeric',year:'numeric'})};
+function jv(){const t=(S.j[S.date]||{}).t||'',ks=Object.keys(S.j).filter(k=>(S.j[k].t||'').trim()).sort().reverse();
+ return hero('Journal',dl(S.date))+`<div class="card"><div class="row"><button class="x" onclick="dd(-1)" aria-label="Previous day">‹</button><input type="date" id="dt" value="${S.date}" onchange="if(this.value){S.date=this.value;render()}"><button class="x" onclick="dd(1)" aria-label="Next day">›</button></div>
+ <textarea class="tx" id="jt" placeholder="Write about your day…" oninput="setJ(this)">${esc(t)}</textarea><div class="row mu"><span id="wc">${wc(t)} words</span><span class="ss">${esc(ST)}</span></div></div>
+ <div class="card"><div class="ct">Earlier entries</div>${ks.map(k=>`<button class="ent ${k===S.date?'on':''}" onclick="S.date='${k}';render();scrollTo(0,0)">${dl(k)}<span>${esc(S.j[k].t.trim().slice(0,90))}</span></button>`).join('')||'<div class="mu">Nothing yet. Your first entry will appear here.</div>'}</div>`+cloud()}
+function setJ(t){S.j[S.date]={t:t.value,u:Date.now()};grow(t);$('wc').textContent=wc(t.value)+' words';save()}
+const B=()=>S.books.find(b=>b.id===S.bk&&!b.del),touch=b=>{b.u=Date.now();save()},IT=(b,id)=>b.items.find(i=>i.id===id);
+function wv(){const b=B();
+ if(!b){const L=S.books.filter(x=>!x.del);return hero('Writing','Your books')+`<div class="card"><div class="ct">Books</div>${L.map(x=>`<button class="ent" onclick="S.bk='${x.id}';render();scrollTo(0,0)">${esc(x.title)}<span>${x.items.reduce((n,i)=>n+wc(i.x),0).toLocaleString()} words · ${x.items.length} sections</span></button>`).join('')||'<div class="mu">No books yet. Start one below.</div>'}</div><div class="card"><div class="ct">New book</div><input id="nt" placeholder="Title"><button class="go" onclick="nb()">Start book</button></div>`+cloud()}
+ const i=IT(b,S.it);if(i)return itemV(b,i);
+ const tot=b.items.reduce((n,x)=>n+wc(x.x),0),p=Math.min(100,tot/(b.g||1)*100);
+ return hero(esc(b.title),'Table of contents')+`<div class="card"><div class="row"><button class="chip" onclick="S.bk=null;render()">‹ All books</button><button class="chip" onclick="exp()">Export .md</button></div><input class="ti l0" value="${esc(b.title)}" oninput="b_t(this.value)" aria-label="Book title" style="margin-top:8px"><div class="bar"><i style="width:${p}%"></i></div><div class="row mu"><span>${tot.toLocaleString()} of</span><input type="number" min="0" value="${b.g}" oninput="setG(this.value)" style="width:110px;padding:6px 10px" aria-label="Word goal"><span>words</span></div></div>
+ <div class="card"><div class="ct">Contents</div>${b.items.map((x,n)=>`<div class="it" style="margin-left:${x.lv*16}px"><div class="row"><input class="ti l${x.lv}" value="${esc(x.t)}" oninput="setT('${x.id}',this.value)" aria-label="Section title"><button class="chip" onclick="op('${x.id}')">Write</button></div><div class="row"><span class="mu">${wc(x.x)} words</span><span><button class="chip" onclick="stat('${x.id}')">${SN[x.s]}</button><button class="x" onclick="mvI(${n},-1)" aria-label="Move up">↑</button><button class="x" onclick="mvI(${n},1)" aria-label="Move down">↓</button><button class="x" onclick="inI(${n},-1)" aria-label="Outdent">←</button><button class="x" onclick="inI(${n},1)" aria-label="Indent">→</button><button class="x" onclick="del('${x.id}')" aria-label="Delete">×</button></span></div></div>`).join('')||'<div class="mu">Empty. Add your first section.</div>'}<div class="row"><button class="go" onclick="add(0)">Add section</button><button class="go alt" onclick="add(1)">Add sub-section</button></div></div><div class="card"><button class="go alt" style="margin:0" onclick="if(confirm('Delete this book?')){b=B();b.del=1;touch(b);S.bk=null;render()}">Delete book</button></div>`+cloud()}
+function itemV(b,i){const n=b.items.indexOf(i),pv=b.items[n-1],nx=b.items[n+1];
+ return hero(esc(i.t),esc(b.title))+`<div class="card"><div class="row"><button class="chip" onclick="S.it=null;render();scrollTo(0,0)">‹ Contents</button><button class="chip" onclick="stat('${i.id}',1)">${SN[i.s]}</button></div><input class="ti l0" value="${esc(i.t)}" oninput="setT('${i.id}',this.value)" aria-label="Section title" style="margin-top:8px"><textarea class="tx" id="xt" placeholder="Start writing…" oninput="setX(this)">${esc(i.x)}</textarea><div class="row mu"><span id="wc">${wc(i.x)} words</span><span class="ss">${esc(ST)}</span></div><div class="row" style="margin-top:10px">${pv?`<button class="chip" onclick="op('${pv.id}')">‹ ${esc(pv.t.slice(0,18))}</button>`:'<span></span>'}${nx?`<button class="chip" onclick="op('${nx.id}')">${esc(nx.t.slice(0,18))} ›</button>`:'<span></span>'}</div></div>`+cloud()}
+const setG=v=>{const b=B();b.g=+v||0;touch(b)},b_t=v=>{const b=B();b.title=v;touch(b)},setT=(id,v)=>{const b=B();IT(b,id).t=v;touch(b)},setX=t=>{const b=B();IT(b,S.it).x=t.value;grow(t);$('wc').textContent=wc(t.value)+' words';touch(b)};
+const op=id=>{S.it=id;render();scrollTo(0,0)},stat=(id,r)=>{const b=B(),i=IT(b,id);i.s=(i.s+1)%4;touch(b);r?render():render()};
+function nb(){const t=$('nt').value.trim();if(!t)return $('nt').focus();const b={id:uid(),title:t,u:Date.now(),g:80000,items:[{id:uid(),t:'Chapter 1',lv:0,s:0,x:''}]};S.books.push(b);S.bk=b.id;save();render()}
+function add(d){const b=B(),l=b.items.length?b.items[b.items.length-1].lv:0,lv=Math.min(2,Math.max(0,d?l+1:l));b.items.push({id:uid(),t:'New section',lv,s:0,x:''});touch(b);render()}
+const end=(a,i)=>{let j=i+1;while(j<a.length&&a[j].lv>a[i].lv)j++;return j};
+function mvI(i,d){const b=B(),a=b.items,lv=a[i].lv,e=end(a,i);if(d<0){let p=i-1;while(p>=0&&a[p].lv>lv)p--;if(p<0||a[p].lv<lv)return;a.splice(p,0,...a.splice(i,e-i))}else{if(e>=a.length||a[e].lv!==lv)return;const k=end(a,e);a.splice(i,0,...a.splice(e,k-e))}touch(b);render()}
+function inI(i,d){const b=B(),a=b.items,e=end(a,i),l=a[i].lv+d;if(l<0||l>2||(d>0&&i===0))return;for(let k=i;k<e;k++)a[k].lv=Math.min(2,Math.max(0,a[k].lv+d));touch(b);render()}
+function del(id){const b=B(),i=IT(b,id);if(wc(i.x)>20&&!confirm('Delete "'+i.t+'" and its text?'))return;b.items=b.items.filter(x=>x.id!==id);touch(b);render()}
+function exp(){const b=B(),t='# '+b.title+'\n\n'+b.items.map(i=>'#'.repeat(i.lv+2)+' '+i.t+'\n\n'+i.x).join('\n\n'),a=document.createElement('a');a.href=URL.createObjectURL(new Blob([t],{type:'text/markdown'}));a.download=b.title.replace(/[^\w ]+/g,'')+'.md';a.click()}
+function render(){const y=scrollY;$('app').innerHTML=S.tab==='journal'?jv():wv();const I=IMG[S.tab],g=$('bg');g.style.backgroundImage='url('+I[0]+')';g.style.aspectRatio=I[1];document.querySelectorAll('textarea.tx').forEach(grow);['journal','writing'].forEach(t=>$('n-'+t).className=t===S.tab?'on':'');scrollTo(0,y)}
+render();if(AU)sync();
+try{if('serviceWorker' in navigator&&location.protocol.startsWith('http'))navigator.serviceWorker.register('sw.js')}catch(e){}
+</script></body></html>

@@ -2,7 +2,7 @@
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Pages</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@400;500&family=Jost:wght@400;500;600&family=Pinyon+Script&display=swap">
-<link rel="manifest" href="manifest.webmanifest"><link rel="icon" type="image/svg+xml" href="favicon.svg"><link rel="icon" type="image/png" href="icon-192.png"><link rel="apple-touch-icon" href="icon-180.png"><meta name="theme-color" content="#f1f1ec"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Pages">
+<link rel="manifest" href="manifest.webmanifest"><link rel="icon" type="image/png" sizes="192x192" href="icon-192.png"><link rel="apple-touch-icon" href="icon-180.png"><meta name="theme-color" content="#f1f1ec"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Pages">
 <style>
 :root{padding-top:env(safe-area-inset-top,0px);--bg:#f1f1ec;--card:rgba(255,255,255,.8);--ink:#292728;--mu:#6c6b58;--ln:#d0c7b3;--rose:#43442b;--rose2:#e6e1d2;--sage:#939474;--sage2:#e4e4d8;--bad:#9a5b4a}
 *{box-sizing:border-box}
@@ -57,7 +57,7 @@ async function signIn(){try{await auth({email:$('em').value.trim(),password:$('p
 const cloud=()=>`<div class="card"><div class="ct">Cloud backup</div>${AU?`<div class="mu">Signed in as ${esc(AU.em)}</div><div class="mu ss">${esc(ST)}</div><button class="go" onclick="sync()">Back up now</button><button class="go alt" onclick="AU=null;saveAU();render()">Sign out</button>`:`<div class="mu">Sign in once and every change is backed up automatically.</div><input id="em" type="email" placeholder="Email" autocomplete="username" style="margin-top:8px"><input id="pw" type="password" placeholder="Password" autocomplete="current-password" style="margin-top:8px"><div class="mu ss">${esc(ST)}</div><button class="go" onclick="signIn()">Sign in</button>`}</div>`;
 setInterval(()=>{if(AU&&S.dirty)sync()},30000);document.addEventListener('visibilitychange',()=>{if(AU&&document.hidden&&S.dirty)sync()});
 /* VIEWS */
-const IMG={journal:['bg-journal.jpg','1000/750',290],writing:['bg-writing.jpg','900/1200',350]};
+const IMG={journal:['bg-journal.jpg','900/1168',290],writing:['bg-writing.jpg','900/960',350]};
 const hero=(t,s)=>`<div class="hero" style="height:${IMG[S.tab][2]}px"><h1>${t}</h1><i>${s}</i></div>`;
 const grow=t=>{t.style.height='auto';t.style.height=Math.max(t.scrollHeight,window.innerHeight*.5)+'px'};
 const go=t=>{S.tab=t;render();scrollTo(0,0)};

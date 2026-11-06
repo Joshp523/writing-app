@@ -58,6 +58,16 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--sage);outline-o
 .mh b{font-weight:700}.mh b.w-Josh{color:var(--wj)}.mh b.w-Meishe{color:var(--wm)}
 .tagall{background:var(--rose2);border-radius:14px;padding:12px 14px;margin:6px 0 10px;font-size:14px}.tagall .row{justify-content:flex-start;margin-top:8px}
 .dk,nav .brand{display:none}
+/* suggested edits */
+:root{--red:#c0262d}
+ins,del{color:var(--red);text-decoration-color:var(--red)}ins{text-decoration:none;background:rgba(192,38,45,.07);border-radius:2px}del{text-decoration:line-through;text-decoration-thickness:1.5px}del+ins{margin-left:.22em}
+div.tx{min-height:52vh;padding:10px 2px;outline:0;font:400 18px/1.7 "Crimson Pro",Georgia,serif;white-space:pre-wrap;overflow-wrap:break-word;-webkit-user-select:text;user-select:text}
+.sgv ins,.sgv del{cursor:pointer}.sgv .pick{background:rgba(192,38,45,.2);box-shadow:0 0 0 2px rgba(192,38,45,.35);border-radius:3px}
+.sgb{border-left:3px solid var(--red);background:rgba(192,38,45,.06);border-radius:10px;padding:10px 12px;margin:14px 0 4px;font-size:14px;line-height:1.45}.sgb b{color:var(--red)}
+.go.sgo{background:#fff;color:var(--red);box-shadow:inset 0 0 0 1.5px var(--red)}
+.mh b.sgm{color:var(--red)}
+#sgs{position:fixed;left:0;right:0;bottom:0;z-index:9;padding:0 12px calc(14px + env(safe-area-inset-bottom,0px))}
+.sgp{position:relative;max-width:520px;margin:0 auto;background:#fff;border:1px solid var(--ln);border-radius:20px;padding:16px 16px 12px;box-shadow:0 10px 34px rgba(41,39,40,.2);font-size:15px}.sgp>div:first-child{padding-right:30px}.sgp .x{position:absolute;right:6px;top:6px}.sgp .row .go{margin-top:12px}
 @media (hover:hover){button,a{cursor:pointer}.mini{transition:transform .15s,box-shadow .15s}.mini:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(41,39,40,.12)}.chip:hover{border-color:var(--sage);background:#fff}.ent:hover{color:var(--rose)}.go:hover{filter:brightness(1.08)}.lk:hover b{color:var(--rose)}.add:hover{border-color:var(--sage);background:rgba(255,255,255,.5)}}
 /* LAPTOP & DESKTOP: sidebar menu, wide photo banner, roomier cards */
 @media (min-width:900px){
@@ -72,7 +82,7 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--sage);outline-o
  main>*{max-width:760px;margin-left:auto;margin-right:auto}
  .hero{height:clamp(190px,30vh,290px)!important;padding-bottom:18px}.hero h1{font-size:72px}.hero i{font-size:15px}
  .card{padding:24px 26px;margin-bottom:18px}.dk{display:block}
- textarea.tx{font-size:19.5px;line-height:1.75}
+ .tx{font-size:19.5px!important;line-height:1.75!important}
  .cg{grid-template-columns:repeat(auto-fill,minmax(205px,1fr));gap:14px}.th{height:150px}.fl{grid-template-columns:1fr 1fr 1fr}
 }
 @media (min-width:1200px){
@@ -106,7 +116,7 @@ async function sync(){if(!AU||busy)return;busy=true;ST='Backing up…';paint();
  try{const row=(await sb('jw_snapshots?select=data'))[0],d=row?row.data:{},r=d.jw||{};S.j=mg(S.j,r.j||{});S.books=mA(S.books,r.books||[]);const rg=d.rag||{};S.cols=mA(S.cols,rg.cols||[]);S.links=mA(S.links,rg.links||[]);const v=ver;
   await sb('jw_snapshots?on_conflict=user_id',{method:'POST',headers:{Prefer:'resolution=merge-duplicates'},body:JSON.stringify({user_id:AU.uid,data:{...d,jw:{j:S.j,books:S.books},rag:{cols:S.cols,links:S.links}},updated_at:new Date().toISOString()})});
   S.dirty=v!==ver;persist();ST='Backed up '+new Date().toLocaleTimeString([],{hour:'numeric',minute:'2-digit'});
-  const a=document.activeElement;if(!a||!/^(TEXTAREA|INPUT)$/.test(a.tagName))render()}
+  const a=document.activeElement;if(!a||!(/^(TEXTAREA|INPUT)$/.test(a.tagName)||a.isContentEditable))render()}
  catch(e){ST='Backup failed ('+e.message+'). Your writing is safe on this device.'}busy=false;paint()}
 async function signIn(){try{await auth({email:$('em').value.trim(),password:$('pw').value},'password');await sync();render()}catch(e){ST=e.message;paint()}}
 const lsGet=k=>{try{return localStorage.getItem(k)||''}catch(e){return''}};
@@ -170,7 +180,7 @@ function colOrder(a,b){   // planned (by issue, then date) · then undated ideas
 const paras=t=>t.split(/\n+/).map(x=>x.trim()).filter(Boolean);
 const thumb=t=>{const P=paras(t);return P.length?P.slice(0,12).map(x=>`<p>${esc(x.slice(0,700))}</p>`).join(''):'<div class="ph" style="width:92%"></div><div class="ph"></div><div class="ph" style="width:84%"></div><div class="ph" style="width:60%"></div><div class="mu" style="font:italic 10px Jost;margin-top:8px">Nothing written yet</div>'};
 const lenBar=c=>{if(!c.tg)return'';const n=cc(c.x),p=Math.min(100,n/c.tg*100);return `<div class="mb"><i class="${n>c.tg?'ov':''}" style="width:${p}%"></i></div>`};
-const mini=c=>`<button class="mini${c.s===3?' pub':''}" onclick="opC('${c.id}')"><div class="mh">${WHO.includes(c.a)?`<b class="w-${c.a}">${c.a}</b> · `:''}${esc(when(c,fs)||'Not scheduled')}</div><div class="mt">${esc(c.t||'Untitled column')}</div><div class="th">${thumb(c.x||'')}</div>${lenBar(c)}<div class="mf"><span class="tag s${c.s}">${CS[c.s]}</span><span>${fmt(cc(c.x))}${c.tg?' / '+fmt(c.tg):''} ch</span></div></button>`;
+const mini=c=>`<button class="mini${c.s===3?' pub':''}" onclick="opC('${c.id}')"><div class="mh">${WHO.includes(c.a)?`<b class="w-${c.a}">${c.a}</b> · `:''}${sgOn(c)?'<b class="sgm">Edits</b> · ':''}${esc(when(c,fs)||'Not scheduled')}</div><div class="mt">${esc(c.t||'Untitled column')}</div><div class="th">${thumb(c.x||'')}</div>${lenBar(c)}<div class="mf"><span class="tag s${c.s}">${CS[c.s]}</span><span>${fmt(cc(c.x))}${c.tg?' / '+fmt(c.tg):''} ch</span></div></button>`;
 const host=u=>{try{const h=new URL(u).hostname.replace(/^www\./,'');return /canva/.test(h)?'Canva':h}catch(e){return''}};
 const EXT='<svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg>';
 function rv(){const c=COL();if(c)return colV(c);
@@ -188,23 +198,79 @@ function colV(c){const n=cc(c.x),O=S.cols.filter(x=>!x.del&&x.id!==c.id).sort(co
  <div class="fl"><label>Issue № <span style="opacity:.7">(optional)</span><input value="${esc(c.is)}" inputmode="numeric" placeholder="—" oninput="setC('is',this.value.trim())"></label>
  <label>Date <span style="opacity:.7">(optional)</span>${c.d?` · <a href="#" style="color:var(--rose)" onclick="setC('d','');render();return false">clear</a>`:''}<input type="date" value="${c.d||''}" onchange="setC('d',this.value);render()"></label>
  <label>Target length <span style="opacity:.7">(characters)</span><input value="${c.tg||''}" inputmode="numeric" placeholder="none" oninput="setC('tg',parseInt(this.value.replace(/\D/g,''))||0);cnt()"></label></div>
- <textarea class="tx" id="cx" placeholder="Start the column…" oninput="setC('x',this.value);grow(this);cnt()">${esc(c.x)}</textarea>
+ ${sgArea(c)}
  <div id="cn"></div><div class="row mu" style="margin-top:4px"><span></span><span class="ss">${esc(ST)}</span></div>
- <button class="go" onclick="cpC()">Copy text</button><button class="chip" style="display:block;margin:14px auto 0;color:var(--bad)" onclick="delC()">Delete column</button></div>`,O.length?`<div class="card dk"><div class="ct">Other columns</div>${O.map(x=>`<button class="ent" onclick="swC('${x.id}')">${esc(x.t||'Untitled column')}${who(x.a)}<span>${esc([when(x,fs),CS[x.s],fmt(cc(x.x))+' ch'].filter(Boolean).join(' · '))}</span></button>`).join('')}<button class="add" style="margin:12px 0 0" onclick="leaveC();newC()">+ New column</button></div>`:'')}
+ ${SGM===c.id?`<button class="go sgo" onclick="sgDone()">Done suggesting</button>`:`<div class="row" style="gap:10px"><button class="go" onclick="cpC()">Copy text</button>${sgOn(c)?'':`<button class="go sgo" onclick="sgStart()">✎ Suggest edits</button>`}</div>`}<button class="chip" style="display:block;margin:14px auto 0;color:var(--bad)" onclick="delC()">Delete column</button></div>`,O.length?`<div class="card dk"><div class="ct">Other columns</div>${O.map(x=>`<button class="ent" onclick="swC('${x.id}')">${esc(x.t||'Untitled column')}${who(x.a)}<span>${esc([when(x,fs),CS[x.s],fmt(cc(x.x))+' ch',sgOn(x)?'suggested edits':''].filter(Boolean).join(' · '))}</span></button>`).join('')}<button class="add" style="margin:12px 0 0" onclick="leaveC();newC()">+ New column</button></div>`:'')}
 function cnt(){const c=COL(),e=$('cn');if(!c||!e)return;const n=cc(c.x);e.innerHTML=`<div class="row mu"><span><b style="color:var(--rose)">${fmt(n)}</b>${c.tg?' / '+fmt(c.tg):''} characters with spaces</span><span>${fmt(wc(c.x))} words</span></div>`+(c.tg?`<div class="bar"><i style="width:${Math.min(100,n/c.tg*100)}%;${n>c.tg?'background:var(--bad)':''}"></i></div>`:'')}
 function newC(){const c={id:uid(),t:'',a:S.who,is:'',d:'',s:0,tg:0,x:'',u:Date.now()};S.cols.push(c);S.col=c.id;save();render();scrollTo(0,0);setTimeout(()=>$('ct')&&$('ct').focus(),50)}
-const opC=id=>{S.col=id;render();scrollTo(0,0)},swC=id=>{leaveC();opC(id)};
-function leaveC(){const c=COL();if(c&&!c.t.trim()&&!c.x.trim()){c.del=true;c.u=Date.now();save()}S.col=null;render();scrollTo(0,0)}
+const opC=id=>{SGM=SGSEL=null;S.col=id;render();scrollTo(0,0)},swC=id=>{leaveC();opC(id)};
+function leaveC(){SGM=SGSEL=null;const c=COL();if(c&&!c.t.trim()&&!c.x.trim()){c.del=true;c.u=Date.now();save()}S.col=null;render();scrollTo(0,0)}
 function setC(k,v){const c=COL();if(!c)return;c[k]=v;c.u=Date.now();save()}
 function cAu(n){setC('a',n);S.who=n;render()}
 function cyc(){const c=COL();c.s=(c.s+1)%4;c.u=Date.now();save();render()}
 function delC(){const c=COL();if(cc(c.x)>0&&!confirm('Delete "'+(c.t||'this column')+'" and its text?'))return;c.del=true;c.u=Date.now();S.col=null;save();render();scrollTo(0,0)}
-async function cpC(){const c=COL();try{await navigator.clipboard.writeText(c.x);ST='Copied to the clipboard'}catch(e){const t=$('cx');t.select();document.execCommand('copy');ST='Copied'}paint()}
+async function cpC(){const c=COL();try{await navigator.clipboard.writeText(c.x);ST='Copied to the clipboard'}catch(e){const t=$('cx');if(t)t.select();document.execCommand('copy');ST='Copied'}paint()}
+/* SUGGESTED EDITS: the other author can suggest changes to a column. What they type shows in red; what they delete stays, with a red line through it.
+   c.sg = {by, s:[[type,text],…]} with type 0 unchanged, 1 added, -1 removed. c.x always holds the column without the suggestions. */
+let SGM=null,SGSEL=null;   // column being suggested on · change picked to accept/reject
+const sgBy=c=>WHO.includes(c.a)?WHO.find(n=>n!==c.a):S.who;
+const sgOn=c=>!!(c.sg&&c.sg.s&&c.sg.s.some(x=>x[0]));
+const sgSegs=c=>c.sg&&c.sg.s?c.sg.s:[[0,c.x||'']];
+const sgTxt=(s,f)=>s.filter(x=>f(x[0])).map(x=>x[1]).join('');
+const sgHTML=(s,tap)=>s.map(([t,x],i)=>t?`<${t>0?'ins':'del'}${tap?` data-i="${i}"${SGSEL&&SGSEL.includes(i)?' class="pick"':''}`:''}>${esc(x)}</${t>0?'ins':'del'}>`:esc(x)).join('');
+function sgRuns(T,Y){const s=[];for(let i=0;i<T.length;i++){const l=s[s.length-1];if(l&&l[0]===Y[i])l[1]+=T[i];else s.push([Y[i],T[i]])}return s}
+function sgFlat(s){const T=[],Y=[];s.forEach(([t,x])=>{for(const ch of x.split('')){T.push(ch);Y.push(t)}});return[T,Y]}
+function sgArea(c){const by=esc(c.sg?c.sg.by:sgBy(c));
+ if(SGM===c.id)return `<div class="sgb">Suggesting as <b>${by}</b>. Anything you type shows in <ins>red</ins>, and anything you delete gets a <del>red line</del> through it. ${esc(c.a||'The author')} can accept or reject each change.</div><div class="tx sge" id="sge" contenteditable="true" spellcheck="true" autocapitalize="sentences">${sgHTML(sgSegs(c))}<br data-e></div>`;
+ if(sgOn(c))return `<div class="sgb"><b>${by}</b> suggested edits. Tap a red change to accept or reject it.<div class="row" style="justify-content:flex-start;flex-wrap:wrap;margin-top:8px"><button class="chip" onclick="sgRes(1,1)">Accept all</button><button class="chip" onclick="sgRes(0,1)">Reject all</button><button class="chip" onclick="sgStart()">Keep suggesting</button></div></div><div class="tx sgv">${sgHTML(c.sg.s,1)}</div>`;
+ return `<textarea class="tx" id="cx" placeholder="Start the column…" oninput="setC('x',this.value);grow(this);cnt()">${esc(c.x)}</textarea>`}
+const sgStart=()=>{SGM=S.col;SGSEL=null;render()},sgDone=()=>{SGM=null;render()};
+function sgOff(ed,n,o){try{const r=document.createRange();r.selectNodeContents(ed);r.setEnd(n,o);return r.toString().length}catch(e){return 0}}
+function sgCaret(ed,p){const w=document.createTreeWalker(ed,NodeFilter.SHOW_TEXT),r=document.createRange();let n,ok=false;
+ while(n=w.nextNode()){const L=n.data.length;if(p<L||(p===L&&n.data[L-1]!=='\n')){r.setStart(n,p);ok=true;break}p-=L}
+ if(!ok){const br=ed.querySelector('br[data-e]');br?r.setStartBefore(br):r.setStart(ed,0)}r.collapse(true);const s=getSelection();s.removeAllRanges();s.addRange(r)}
+function sgPut(ed,c,s,p){c.sg=s.some(x=>x[0])?{by:sgBy(c),s}:null;c.u=Date.now();save();ed.innerHTML=sgHTML(s)+'<br data-e>';sgCaret(ed,p)}
+function sgKey(e){const ed=e.currentTarget,t=e.inputType||'',c=COL();if(!c||e.isComposing||t==='insertCompositionText')return;e.preventDefault();
+ if(!/^(insert|delete)/.test(t))return;   // no bold, undo etc. while suggesting
+ const sel=getSelection(),tr=e.getTargetRanges?e.getTargetRanges():[];let a,b;
+ if(tr.length){a=sgOff(ed,tr[0].startContainer,tr[0].startOffset);b=sgOff(ed,tr[0].endContainer,tr[0].endOffset)}
+ else{if(!sel.rangeCount)return;let r=sel.getRangeAt(0);if(r.collapsed&&t.startsWith('delete')&&sel.modify){sel.modify('extend',/Forward/.test(t)?'forward':'backward',/Word/.test(t)?'word':/Line/.test(t)?'lineboundary':'character');r=sel.getRangeAt(0)}
+  a=sgOff(ed,r.startContainer,r.startOffset);b=sgOff(ed,r.endContainer,r.endOffset)}
+ if(a>b)[a,b]=[b,a];let[T,Y]=sgFlat(sgSegs(c)),p=a;
+ const cut=()=>{const T2=[],Y2=[];let k=0;for(let i=0;i<T.length;i++){if(i>=a&&i<b){if(Y[i]===1)continue;k++;Y2.push(-1)}else Y2.push(Y[i]);T2.push(T[i])}T=T2;Y=Y2;return k};   // her own additions really go; original text is only struck
+ if(t.startsWith('delete')){const k=cut();p=/Forward/.test(t)?a+k:a}
+ else{let x=e.data;if(x==null&&e.dataTransfer)x=e.dataTransfer.getData('text/plain');if(/Paragraph|LineBreak/.test(t))x='\n';if(!x)return;x=x.replace(/\r\n?/g,'\n');
+  if(b>a)p=a+cut();if(!(p>0&&Y[p-1]===1))while(p<T.length&&Y[p]===-1)p++;   // new words go after the struck ones they replace
+  const X=x.split('');T.splice(p,0,...X);Y.splice(p,0,...X.map(()=>1));p+=X.length}
+ sgPut(ed,c,sgRuns(T,Y),p)}
+function sgRead(ed){const s=[],push=(t,x)=>{if(!x)return;const l=s[s.length-1];if(l&&l[0]===t)l[1]+=x;else s.push([t,x])};
+ const walk=(n,t)=>n.childNodes.forEach(k=>{if(k.nodeType===3)push(t,k.data);else if(k.nodeName==='BR'){if(!('e' in k.dataset))push(t,'\n')}else if(k.nodeType===1){if(/^(DIV|P)$/.test(k.nodeName))push(t,'\n');walk(k,k.nodeName==='INS'?1:k.nodeName==='DEL'?-1:t)}});
+ walk(ed,0);return s}
+function sgDiff(a,b){const A=a.match(/\s+|\S+/g)||[],B=b.match(/\s+|\S+/g)||[],s=[],push=(t,x)=>{if(!x)return;const l=s[s.length-1];if(l&&l[0]===t)l[1]+=x;else s.push([t,x])};
+ let p=0,q=0;while(p<A.length&&p<B.length&&A[p]===B[p])p++;while(q<A.length-p&&q<B.length-p&&A[A.length-1-q]===B[B.length-1-q])q++;
+ const X=A.slice(p,A.length-q),Y=B.slice(p,B.length-q),n=X.length,m=Y.length;push(0,A.slice(0,p).join(''));
+ if(n*m>4e6){push(-1,X.join(''));push(1,Y.join(''))}
+ else{const L=Array.from({length:n+1},()=>new Uint16Array(m+1));for(let i=n-1;i>=0;i--)for(let j=m-1;j>=0;j--)L[i][j]=X[i]===Y[j]?L[i+1][j+1]+1:Math.max(L[i+1][j],L[i][j+1]);
+  let i=0,j=0;while(i<n||j<m){if(i<n&&j<m&&X[i]===Y[j]){push(0,X[i]);i++;j++}else if(i<n&&(j>=m||L[i+1][j]>=L[i][j+1]))push(-1,X[i++]);else push(1,Y[j++])}}
+ push(0,A.slice(A.length-q).join(''));return s}
+function sgFix(){const ed=$('sge'),c=COL();if(!ed||!c)return;   // safety net for typing the browser didn't let us intercept (e.g. dictation)
+ const s=sgRead(ed);if(sgTxt(s,t=>t<=0)===(c.x||'')){const r=getSelection().rangeCount?getSelection().getRangeAt(0):null;sgPut(ed,c,s,r?sgOff(ed,r.endContainer,r.endOffset):0);return}
+ let v=0;try{const r=document.createRange();r.selectNodeContents(ed);const z=getSelection().getRangeAt(0);r.setEnd(z.endContainer,z.endOffset);const d=document.createElement('div');d.appendChild(r.cloneContents());d.querySelectorAll('del').forEach(x=>x.remove());v=d.textContent.length}catch(e){}
+ const s2=sgDiff(c.x||'',sgTxt(s,t=>t>=0));let f=0;for(const[t,x]of s2){if(t<0){f+=x.length;continue}if(v<=x.length){f+=v;v=-1;break}v-=x.length;f+=x.length}sgPut(ed,c,s2,f)}
+document.addEventListener('click',e=>{const el=e.target.closest&&e.target.closest('.sgv [data-i]');if(!el)return;const c=COL();if(!c||!c.sg)return;const s=c.sg.s,i=+el.dataset.i;
+ let g=[i];if(s[i][0]<0&&s[i+1]&&s[i+1][0]>0)g=[i,i+1];else if(s[i][0]>0&&s[i-1]&&s[i-1][0]<0)g=[i-1,i];SGSEL=g;render()});
+function sgSheet(){const c=S.tab==='rags'&&COL();let el=$('sgs');if(!SGSEL||!c||!sgOn(c)||SGM){SGSEL=null;if(el)el.remove();return}
+ if(!el){el=document.createElement('div');el.id='sgs';document.body.appendChild(el)}
+ const s=c.sg.s,q=x=>!x.trim()?(x.includes('\n')?'a line break':'a space'):'“'+esc(x.trim().length>90?x.trim().slice(0,87)+'…':x.trim())+'”',d=SGSEL.map(i=>s[i]),dl=d.find(x=>x[0]<0),ad=d.find(x=>x[0]>0);
+ el.innerHTML=`<div class="sgp"><div><b style="color:var(--red)">${esc(c.sg.by)}</b> suggests ${dl&&ad?`replacing <del>${q(dl[1])}</del> with <ins>${q(ad[1])}</ins>`:dl?`removing <del>${q(dl[1])}</del>`:`adding <ins>${q(ad[1])}</ins>`}</div><div class="row" style="gap:10px"><button class="go" onclick="sgRes(1)">Accept</button><button class="go alt" onclick="sgRes(0)">Reject</button></div><button class="x" aria-label="Close" onclick="SGSEL=null;render()">×</button></div>`}
+function sgRes(ok,all){const c=COL();if(!c||!c.sg)return;if(all&&!ok&&!confirm('Throw away all of '+c.sg.by+'’s suggestions?'))return;
+ const s=[];c.sg.s.forEach((x,i)=>{let t=x[0];if(t&&(all||SGSEL.includes(i))){if((t>0)!==!!ok)return;t=0}const l=s[s.length-1];if(l&&l[0]===t)l[1]+=x[1];else s.push([t,x[1]])});
+ c.x=sgTxt(s,t=>t<=0);c.sg=s.some(x=>x[0])?{...c.sg,s}:null;c.u=Date.now();SGSEL=null;save();render()}
 const fixU=v=>{v=v.trim();return v&&!/^https?:\/\//i.test(v)?'https://'+v:v};
 function addL(){const n=$('ln').value.trim(),u=fixU($('lu').value);if(!u)return $('lu').focus();if(!n)return $('ln').focus();S.links.push({id:uid(),n,url:u,u:Date.now()});save();render()}
 function setL(id,k,v){const l=S.links.find(x=>x.id===id);l[k]=v;l.u=Date.now();save()}
 function delL(id){const l=S.links.find(x=>x.id===id);if(!confirm('Remove "'+l.n+'" from the list?'))return;l.del=true;l.u=Date.now();save();render()}
-function render(){const y=scrollY;$('app').innerHTML=S.tab==='journal'?jv():S.tab==='rags'?rv():wv();const I=IMG[S.tab],g=$('bg');g.className=S.tab;g.style.aspectRatio=I[1];document.querySelectorAll('textarea.tx').forEach(grow);cnt();['journal','writing','rags'].forEach(t=>$('n-'+t).className=t===S.tab?'on':'');scrollTo(0,y)}
+function render(){const y=scrollY;$('app').innerHTML=S.tab==='journal'?jv():S.tab==='rags'?rv():wv();const I=IMG[S.tab],g=$('bg');g.className=S.tab;g.style.aspectRatio=I[1];document.querySelectorAll('textarea.tx').forEach(grow);cnt();['journal','writing','rags'].forEach(t=>$('n-'+t).className=t===S.tab?'on':'');const ed=$('sge');if(ed){ed.addEventListener('beforeinput',sgKey);ed.addEventListener('input',sgFix)}sgSheet();scrollTo(0,y)}
 render();if(AU)sync();
 try{if('serviceWorker' in navigator&&location.protocol.startsWith('http'))navigator.serviceWorker.register('sw.js')}catch(e){}
 </script></body></html>
